@@ -6,5 +6,5 @@ spec:
   selector:
     app: trade-processor
   ports:
-  - port: 8080
+  - port: 18091
     targetPort: 18091

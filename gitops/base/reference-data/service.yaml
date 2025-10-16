@@ -7,7 +7,7 @@ metadata:
 spec:
   ports:
     - name: "18085"
-      port: 8080
+      port: 18085
       targetPort: 18085
   selector:
     app: reference-data
