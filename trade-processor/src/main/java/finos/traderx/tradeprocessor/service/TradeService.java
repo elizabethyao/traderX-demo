@@ -49,18 +49,20 @@ public class TradeService {
 		t.setState(TradeState.New);
 		Position position=positionRepository.findByAccountIdAndSecurity(order.getAccountId(), order.getSecurity());
 		log.info("Position for "+order.getAccountId()+" "+order.getSecurity()+" is "+position);
-		if(position==null) {
-			log.info("Creating new position for "+order.getAccountId()+" "+order.getSecurity());
-			position=new Position();
-			position.setAccountId(order.getAccountId());
-			position.setSecurity(order.getSecurity());
-			position.setQuantity(0);
-		}
-		int newQuantity=((order.getSide()==TradeSide.Buy)?1:-1)*t.getQuantity();
-		position.setQuantity(position.getQuantity()+newQuantity);
-		log.info("Trade {}",t);
-		tradeRepository.save(t);
-		positionRepository.save(position);
+	if(position==null) {
+		log.info("Creating new position for "+order.getAccountId()+" "+order.getSecurity());
+		position=new Position();
+		position.setAccountId(order.getAccountId());
+		position.setSecurity(order.getSecurity());
+		position.setQuantity(0);
+		position.setUpdated(new Date());
+	}
+	int newQuantity=((order.getSide()==TradeSide.Buy)?1:-1)*t.getQuantity();
+	position.setQuantity(position.getQuantity()+newQuantity);
+	position.setUpdated(new Date());
+	log.info("Trade {}",t);
+	tradeRepository.save(t);
+	positionRepository.save(position);
 		// Simulate the handling of this trade...
 		// Now mark as processing
 		t.setUpdated(new Date());
