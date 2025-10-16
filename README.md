@@ -53,6 +53,7 @@ The project consists of multiple moving parts, and you can see how things hang t
 ## Check out Code
 
 This is installed locally through normal git clone operations.
+<!-- Verification test for PR workflow -->
 
 ```
 git clone https://github.com/finos/traderX.git
