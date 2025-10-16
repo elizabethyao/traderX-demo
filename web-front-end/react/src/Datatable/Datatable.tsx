@@ -50,16 +50,28 @@ export const Datatable = () => {
 		});
   }, [selectedId])
 
+	const formatDate = (params: any) => {
+		if (!params.value) return '';
+		const date = new Date(params.value);
+		return date.toLocaleString();
+	};
+
 	useEffect(() => {
-			const positionKeys = ['security','quantity','updated'];
-			const tradeKeys = ['security','quantity','side','state','updated'];
-			setPositionRowData(positionData);
-			setTradeRowData(tradeData);
-			setPositionColumnDefs([])
-			setTradeColumnDefs([]);
-			positionKeys.forEach((key:string) => setPositionColumnDefs((current: ColDef<PositionData>[]) => [...current, {field: key}]));
-			tradeKeys.forEach((key:string) => setTradeColumnDefs((current: ColDef<TradeData>[]) => [...current, {field: key}]));
-	}, [positionData, tradeData, selectedId, currentAccount])
+		const positionKeys = ['security','quantity','updated'];
+		const tradeKeys = ['security','quantity','side','state','updated','created'];
+		setPositionRowData(positionData);
+		setTradeRowData(tradeData);
+		setPositionColumnDefs([])
+		setTradeColumnDefs([]);
+		positionKeys.forEach((key:string) => setPositionColumnDefs((current: ColDef<PositionData>[]) => [...current, {
+			field: key,
+			valueFormatter: key === 'updated' ? formatDate : undefined
+		}]));
+		tradeKeys.forEach((key:string) => setTradeColumnDefs((current: ColDef<TradeData>[]) => [...current, {
+			field: key,
+			valueFormatter: (key === 'updated' || key === 'created') ? formatDate : undefined
+		}]));
+}, [positionData, tradeData, selectedId, currentAccount])
 
 
 return (
